@@ -11,7 +11,7 @@ public:
 
 	double distance(const Node2d& rhs);
 	void calculateHeuristic(const Node2d&  end);
-	Vector2d<int> getPos() { return pos; }
+	Vector2d<int> getPos() const { return pos; }
 	std::string toString();
 	void printNeighbors();
 
@@ -28,3 +28,13 @@ private:
 	Vector2d<int> pos;
 };
 
+namespace std
+{
+  template <> struct hash<Node2d> //hash is not a class template
+  { //explicit specialization of non-template std::hash
+    size_t operator()(const Node2d& node) const
+    {
+      return hash<int>()(node.getPos().X())^hash<int>()(node.getPos().Y()); //std::hash is not a template
+    }
+  };
+}
