@@ -24,18 +24,12 @@ public:
 		for (auto it = closedList.begin(); it != closedList.end(); ++it) {
 			std::cout << "R - " << (*it)->toString() << std::endl;
 		}
-		for (auto &it : cameFrom) {
-			N t = it.first;
-			std::cout << "M - " << t.toString() << ", " << it.second.toString() << std::endl;
-		}
-		std::cout << "L - " << cameFrom.size() << std::endl;
 
-		while (current != &cameFrom.at(*current))
+		path.push_back(current);
+		while (current != current->getPrev())
 		{
-			N* prev = &cameFrom.at(*current);
-			std::cout << "~ - " << current->toString() << prev->toString() << std::endl;
+			current = current->getPrev();
 			path.push_back(current);
-			current = &cameFrom.at(*current);
 		}
 		std::reverse(path.begin(), path.end());
 		return path;
@@ -44,7 +38,7 @@ public:
 	bool calculatePath(N *begin, N *end)
 	{
 		openList.push(begin);
-		cameFrom.insert(std::make_pair(*begin, *begin));
+		begin->setPrev(begin);
 		while (!openList.empty())
 		{
 			N* current = openList.top();
@@ -71,7 +65,7 @@ public:
 				{
 					std::cout << "HERE!";
 					(*it)->setGValue(cost);
-					cameFrom.at(**it) = *current;
+					(*it)->setPrev(current);
 
 				}
 
@@ -80,8 +74,7 @@ public:
 					(*it)->setGValue(cost);
 					(*it)->calculateHeuristic(*end);
 					std::cout << "PAIR - " << (*it)->toString() << ", " << current->toString() << std::endl;
-					std::cout << "LENGHT - " << cameFrom.size() << std::endl;
-					cameFrom.insert(std::make_pair(**it, *current));
+					(*it)->setPrev(current);
 					openList.push(*it);
 				}
 			}
@@ -89,9 +82,6 @@ public:
 		return false;
 	}
 private:
-
-
-	std::unordered_map<N, N> cameFrom;
 	custom_queue<N*, std::vector<N*>, std::less<N*>> openList;
 	std::vector<N*> closedList;
 };

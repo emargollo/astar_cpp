@@ -1,4 +1,4 @@
-#ifndef NODE_H
+	#ifndef NODE_H
 #define NODE_H
 
 #include <vector>
@@ -41,6 +41,9 @@ public:
 	}
 
 	std::vector<T*> getNeighbors() { return neighbors; }
+    void setPrev(T* p) { prev = p; }
+    T* getPrev() { return prev; }
+	T* This() { return static_cast<T*>(this); }
 
 
 	//Operators
@@ -54,10 +57,6 @@ public:
 		//Needs to be implemented at derived
 		return false;
 	}
-	Node<T>(const Node<T>&) = default;
-	Node<T>& operator=(const Node<T>&) = default;
-
-	T* This() { return static_cast<T*>(this); }
 
 	//Adding neighbors
 	template<typename First, typename ... Nodes>
@@ -72,11 +71,10 @@ public:
 		neighbors.push_back(n);
 	}
 
-	virtual std::string toString() { return ""; }
-
 
 protected:
 	std::vector<T*> neighbors;
+	T* prev;
 	double gValue{};
 	double hValue{};
 	double fValue;
