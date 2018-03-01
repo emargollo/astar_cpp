@@ -91,7 +91,7 @@ public:
 private:
 
 
-	std::map<N, N> cameFrom;
+	std::unordered_map<N, N> cameFrom;
 	custom_queue<N*, std::vector<N*>, std::less<N*>> openList;
 	std::vector<N*> closedList;
 };
