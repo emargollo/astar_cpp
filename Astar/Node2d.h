@@ -1,4 +1,5 @@
-#pragma once
+#ifndef NODE_2D_H
+#define NODE_2D_H
 #include "Node.h"
 #include <iostream>
 
@@ -21,3 +22,4 @@ public:
 private:
 	Vector2d<int> pos;
 };
+#endif /*NODE_2D_H*/
