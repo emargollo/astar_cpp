@@ -1,6 +1,7 @@
 #ifndef NODE_2D_H
 #define NODE_2D_H
 #include "Node.h"
+#include "Vector2d.h"
 #include <iostream>
 
 class Node2d : public Node<Node2d>

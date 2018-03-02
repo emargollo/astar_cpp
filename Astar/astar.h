@@ -6,7 +6,7 @@
 #include <queue>
 #include <functional>
 #include <unordered_map>
-#include "Node.h"
+#include <algorithm>
 #include "custom_queue.h"
 
 template<class N>
@@ -72,7 +72,7 @@ public:
 		return false;
 	}
 private:
-	custom_queue<N*, std::vector<N*>, CmpNodePtrs<N*>> openList;
+	custom_queue<N*, std::vector<N*>, N> openList;
 	std::vector<N*> closedList;
 };
 #endif /*ASTAR_H*/

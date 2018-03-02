@@ -6,7 +6,6 @@
 #include <queue>
 #include <functional>
 #include <iostream>
-#include "Vector2d.h"
 
 
 template<typename T>
@@ -37,15 +36,22 @@ public:
 
 
 	//Operators
-	friend bool operator > (const Node &lhs, const Node &rhs) {
+	friend bool operator > (const Node &lhs, const Node &rhs) 
+	{
 		return (lhs.getFValue() > rhs.getFValue());
 	}
-	friend bool operator < (const Node &lhs, const Node &rhs) {
+	friend bool operator < (const Node &lhs, const Node &rhs) 
+	{
 		return (lhs.getFValue() < rhs.getFValue());
 	}
-	friend bool operator == (const Node &lhs, const Node &rhs) {
+	friend bool operator == (const Node &lhs, const Node &rhs) 
+	{
 		//Needs to be implemented at derived
 		return false;
+	}
+	bool operator()(const Node<T>* lhs, const Node<T>* rhs) const
+	{
+		return lhs->getFValue() > rhs->getFValue();
 	}
 
 	//Adding neighbors
@@ -68,15 +74,5 @@ protected:
 	double gValue{};
 	double hValue{};
 	double fValue;
-};
-
-template<typename T>
-struct CmpNodePtrs
-{
-	template<typename T>
-	bool operator()(const Node<T>* lhs, const Node<T>* rhs) const
-	{
-		return lhs->getFValue() > rhs->getFValue();
-	}
 };
 #endif
