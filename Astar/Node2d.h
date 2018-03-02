@@ -12,6 +12,8 @@ public:
 
 	double distance(const Node2d& rhs);
 	void calculateHeuristic(const Node2d&  end);
+	bool isBlocked() { return full; }
+	void setFull(bool f) { full = f; }
 	Vector2d<int> getPos() const { return pos; }
 	std::string toString();
 	void printNeighbors();
@@ -21,5 +23,6 @@ public:
 	}
 private:
 	Vector2d<int> pos;
+	bool full;
 };
 #endif /*NODE_2D_H*/

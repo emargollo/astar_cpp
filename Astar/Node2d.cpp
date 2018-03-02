@@ -1,11 +1,8 @@
 #include "Node2d.h"
 
-
-
 Node2d::Node2d()
 {
 }
-
 
 Node2d::~Node2d()
 {
@@ -18,16 +15,13 @@ double Node2d::distance(const Node2d & rhs)
 
 void Node2d::calculateHeuristic(const Node2d & end)
 {
-	hValue = distance(end);
-	fValue = gValue + hValue;
+	hValue = std::abs(pos.X() - end.pos.X()) + std::abs(pos.Y() - end.pos.Y());
 }
 
 std::string Node2d::toString()
 {
 	return pos.toString();
 }
-
-
 
 void Node2d::printNeighbors()
 {

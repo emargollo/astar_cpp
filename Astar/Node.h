@@ -19,26 +19,16 @@ public:
 
 	virtual double distance(const T& rhs) { return 0.0; }
 
-	virtual void calculateHeuristic(const T&  end) { fValue = gValue + hValue; }
+	virtual void calculateHeuristic(const T&  end) {}
 
 	virtual void setGValue(double value)
 	{
 		gValue = value;
-		fValue = gValue + hValue;
 	}
-	virtual double getGValue()
-	{
-		return gValue;
-	}
-
-	virtual double getFValue()
-	{
-		return gValue + hValue;
-	}
-	virtual bool isBlocked()
-	{
-		return false;
-	}
+	virtual double getGValue() { return gValue; } 
+	virtual double getHValue() { return hValue; }
+	virtual double getFValue() const { return gValue + hValue; }
+	virtual bool isBlocked() { return false; }
 
 	std::vector<T*> getNeighbors() { return neighbors; }
     void setPrev(T* p) { prev = p; }
@@ -48,10 +38,10 @@ public:
 
 	//Operators
 	friend bool operator > (const Node &lhs, const Node &rhs) {
-		return (lhs.fValue > rhs.fValue);
+		return (lhs.getFValue() > rhs.getFValue());
 	}
 	friend bool operator < (const Node &lhs, const Node &rhs) {
-		return (lhs.fValue < rhs.fValue);
+		return (lhs.getFValue() < rhs.getFValue());
 	}
 	friend bool operator == (const Node &lhs, const Node &rhs) {
 		//Needs to be implemented at derived
@@ -78,5 +68,15 @@ protected:
 	double gValue{};
 	double hValue{};
 	double fValue;
+};
+
+template<typename T>
+struct CmpNodePtrs
+{
+	template<typename T>
+	bool operator()(const Node<T>* lhs, const Node<T>* rhs) const
+	{
+		return lhs->getFValue() > rhs->getFValue();
+	}
 };
 #endif

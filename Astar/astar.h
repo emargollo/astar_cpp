@@ -21,9 +21,6 @@ public:
 	{
 		std::vector<N*> path;
 		N* current = closedList.back();
-		for (auto it = closedList.begin(); it != closedList.end(); ++it) {
-			std::cout << "R - " << (*it)->toString() << std::endl;
-		}
 
 		path.push_back(current);
 		while (current != current->getPrev())
@@ -45,35 +42,28 @@ public:
 			openList.pop();
 			closedList.push_back(current);
 
-
-			if (*current == *end)
-			{
-				return true;
-			}
+			if (*current == *end) return true;
 
 			std::vector<N*> neighbors = current->getNeighbors();
-			current->printNeighbors();
 			for (auto it = neighbors.begin(); it != neighbors.end(); ++it)
 			{
-				double cost = current->getGValue() + current->distance(**it);
 				if ((*it)->isBlocked()) continue;
-
 				if (std::find(closedList.begin(), closedList.end(), *it) != closedList.end()) continue;
 
+				double cost = current->getGValue() + current->distance(**it);
+				
 				auto openIt = openList.find(*it);
 				if (openIt != openList.end() && cost < (*it)->getGValue())
 				{
-					std::cout << "HERE!";
 					(*it)->setGValue(cost);
 					(*it)->setPrev(current);
-
 				}
 
+				
 				if (openIt == openList.end())
 				{
 					(*it)->setGValue(cost);
 					(*it)->calculateHeuristic(*end);
-					std::cout << "PAIR - " << (*it)->toString() << ", " << current->toString() << std::endl;
 					(*it)->setPrev(current);
 					openList.push(*it);
 				}
@@ -82,7 +72,7 @@ public:
 		return false;
 	}
 private:
-	custom_queue<N*, std::vector<N*>, std::less<N*>> openList;
+	custom_queue<N*, std::vector<N*>, CmpNodePtrs<N*>> openList;
 	std::vector<N*> closedList;
 };
 #endif /*ASTAR_H*/
