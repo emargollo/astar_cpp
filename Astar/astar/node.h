@@ -9,12 +9,12 @@
 
 
 template<typename T>
-class Node
+class node
 {
 public:
 
-	Node() {};
-	~Node() {};
+	node() {};
+	~node() {};
 
 	virtual double distance(const T& rhs) { return 0.0; }
 
@@ -30,26 +30,16 @@ public:
 	virtual bool isBlocked() { return false; }
 
 	std::vector<T*> getNeighbors() { return neighbors; }
-    void setPrev(T* p) { prev = p; }
-    T* getPrev() { return prev; }
 	T* This() { return static_cast<T*>(this); }
 
 
 	//Operators
-	friend bool operator > (const Node &lhs, const Node &rhs) 
-	{
-		return (lhs.getFValue() > rhs.getFValue());
-	}
-	friend bool operator < (const Node &lhs, const Node &rhs) 
-	{
-		return (lhs.getFValue() < rhs.getFValue());
-	}
-	friend bool operator == (const Node &lhs, const Node &rhs) 
+	friend bool operator == (const node &lhs, const node &rhs)
 	{
 		//Needs to be implemented at derived
 		return false;
 	}
-	bool operator()(const Node<T>* lhs, const Node<T>* rhs) const
+	bool operator()(const node<T>* lhs, const node<T>* rhs) const
 	{
 		return lhs->getFValue() > rhs->getFValue();
 	}
@@ -70,7 +60,6 @@ public:
 
 protected:
 	std::vector<T*> neighbors;
-	T* prev;
 	double gValue{};
 	double hValue{};
 	double fValue;

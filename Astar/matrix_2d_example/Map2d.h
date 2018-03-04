@@ -16,7 +16,9 @@ public:
 
 	void loadMapFrom2dVector(std::vector<std::vector<int>> array);
 	Node2d* get(int x, int y);
+	Node2d* get(Vector2d<int> pos);
 	void printMap();
+	static void executeTest(int map_width, int map_height);
 
 private:
 	std::vector<Node2d*> nodes;

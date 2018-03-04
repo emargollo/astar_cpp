@@ -115,17 +115,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="astar.h" />
-    <ClInclude Include="custom_queue.h" />
-    <ClInclude Include="Map2d.h" />
-    <ClInclude Include="Node.h" />
-    <ClInclude Include="Node2d.h" />
-    <ClInclude Include="Vector2d.h" />
+    <ClInclude Include="astar\astar.h" />
+    <ClInclude Include="astar\custom_queue.h" />
+    <ClInclude Include="matrix_2d_example\Map2d.h" />
+    <ClInclude Include="astar\node.h" />
+    <ClInclude Include="matrix_2d_example\Node2d.h" />
+    <ClInclude Include="matrix_2d_example\Vector2d.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Map2d.cpp" />
-    <ClCompile Include="Node2d.cpp" />
+    <ClCompile Include="matrix_2d_example\Map2d.cpp" />
+    <ClCompile Include="matrix_2d_example\Node2d.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
