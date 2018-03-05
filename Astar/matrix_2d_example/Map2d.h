@@ -5,6 +5,7 @@
 #include <queue>
 #include <functional>
 #include <iostream>
+#include <memory>
 #include "Node2d.h"
 
 class Map2d
@@ -15,13 +16,13 @@ public:
 	~Map2d();
 
 	void loadMapFrom2dVector(std::vector<std::vector<int>> array);
-	Node2d* get(int x, int y);
-	Node2d* get(Vector2d<int> pos);
+	std::shared_ptr<Node2d> get(int x, int y);
+	std::shared_ptr<Node2d> get(Vector2d<int> pos);
 	void printMap();
 	static void executeTest(int map_width, int map_height);
 
 private:
-	std::vector<Node2d*> nodes;
+	std::vector<std::shared_ptr<Node2d>> nodes;
 	int height;
 	int width;
 };

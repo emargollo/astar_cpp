@@ -6,10 +6,11 @@
 #include <queue>
 #include <functional>
 #include <iostream>
+#include <memory>
 
 
 template<typename T>
-class node
+class node : public std::enable_shared_from_this<node<T>>
 {
 public:
 
@@ -29,8 +30,9 @@ public:
 	virtual double getFValue() const { return gValue + hValue; }
 	virtual bool isBlocked() { return false; }
 
-	std::vector<T*> getNeighbors() { return neighbors; }
+	std::vector<std::shared_ptr<T>> getNeighbors() { return neighbors; }
 	T* This() { return static_cast<T*>(this); }
+	//std::shared_ptr<T> This() { return this->shared_from_this(); }
 
 
 	//Operators
@@ -39,7 +41,11 @@ public:
 		//Needs to be implemented at derived
 		return false;
 	}
-	bool operator()(const node<T>* lhs, const node<T>* rhs) const
+	/*bool operator()(const node<T>* lhs, const node<T>* rhs) const
+	{
+		return lhs->getFValue() > rhs->getFValue();
+	}*/
+	bool operator()(const std::shared_ptr<node<T>> lhs, const std::shared_ptr<node<T>> rhs) const
 	{
 		return lhs->getFValue() > rhs->getFValue();
 	}
@@ -48,18 +54,19 @@ public:
 	template<typename First, typename ... Nodes>
 	void addNeighbors(First arg, const Nodes&... rest) {
 		neighbors.push_back(arg);
-		arg->addNeighbor(This());
+		std::shared_ptr<T> _this(This());
+		arg->addNeighbor(_this);
 		addNeighbors(rest...);
 	}
 	void addNeighbors() {};
-	void addNeighbor(T* n)
+	void addNeighbor(std::shared_ptr<T> n)
 	{
 		neighbors.push_back(n);
 	}
 
 
 protected:
-	std::vector<T*> neighbors;
+	std::vector<std::shared_ptr<T>> neighbors;
 	double gValue{};
 	double hValue{};
 	double fValue;

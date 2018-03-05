@@ -26,7 +26,7 @@ void Map2d::loadMapFrom2dVector(std::vector<std::vector<int>> array)
 	{
 		for (int j = 0; j < width; ++j) 
 		{
-			Node2d* n = new Node2d(Vector2d<int>(j, i));
+			std::shared_ptr<Node2d> n(new Node2d(Vector2d<int>(j, i)));
 			if (j > 0) 
 			{
 				n->addNeighbors(get(j-1, i));
@@ -48,13 +48,13 @@ void Map2d::loadMapFrom2dVector(std::vector<std::vector<int>> array)
 	}
 }
 
-Node2d* Map2d::get(int x, int y)
+std::shared_ptr<Node2d> Map2d::get(int x, int y)
 {
 	int pos = x + y * width;
 	return nodes.at(pos);
 }
 
-Node2d * Map2d::get(Vector2d<int> pos)
+std::shared_ptr<Node2d> Map2d::get(Vector2d<int> pos)
 {
 	return get(pos.X(), pos.Y());
 }
@@ -88,7 +88,7 @@ void Map2d::executeTest(int map_width, int map_height)
 	
 	auto s = std::chrono::high_resolution_clock::now();
 	astar<Node2d> a;
-	std::vector<Node2d*> path;
+	std::vector<std::shared_ptr<Node2d>> path;
 	if (a.calculatePath(map.get(start), map.get(end))) {
 
 		path = a.reconstructPath();

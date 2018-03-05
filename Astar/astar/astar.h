@@ -5,6 +5,7 @@
 #include <map>
 #include <unordered_map>
 #include <algorithm>
+#include <memory>
 #include "custom_queue.h"
 
 template<class N>
@@ -16,10 +17,10 @@ public:
 	~astar() {};
 
 	//builds back the path found from the cameFrom map.
-	std::vector<N*> reconstructPath()
+	std::vector<std::shared_ptr<Node2d>> reconstructPath()
 	{
-		std::vector<N*> path;
-		N* current = closedList.back();
+		std::vector<std::shared_ptr<Node2d>> path;
+		std::shared_ptr<N> current(std::move(closedList.back()));
 
 		while (current != cameFrom.at(current)) {
 			path.push_back(current);
@@ -32,23 +33,23 @@ public:
 	}
 
 	//calculates the path between two node objects, returns false if no path is found
-	bool calculatePath(N *begin, N *end)
+	bool calculatePath(std::shared_ptr<N> begin, std::shared_ptr<N> end)
 	{
 		cameFrom.clear();
 		closedList.clear();
-		openList = custom_queue<N*, std::vector<N*>, N>();
+		openList = custom_queue<std::shared_ptr<N>, std::vector<std::shared_ptr<N>>, N>();
 
 		openList.push(begin);
 		cameFrom.insert(std::make_pair(begin, begin));
 		while (!openList.empty())
 		{
-			N* current = openList.top();
+			std::shared_ptr<N> current = openList.top();
 			openList.pop();
 			closedList.push_back(current);
 
 			if (*current == *end) return true;
 
-			std::vector<N*> neighbors = current->getNeighbors();
+			std::vector<std::shared_ptr<N>> neighbors = current->getNeighbors();
 			for (auto it = neighbors.begin(); it != neighbors.end(); ++it)
 			{
 				if ((*it)->isBlocked()) continue;
@@ -76,8 +77,8 @@ public:
 		return false;
 	}
 private:
-	std::map<N*, N*> cameFrom;
-	custom_queue<N*, std::vector<N*>, N> openList;
-	std::vector<N*> closedList;
+	std::map<std::shared_ptr<N>, std::shared_ptr<N>> cameFrom;
+	custom_queue<std::shared_ptr<N>, std::vector<std::shared_ptr<N>>, N> openList;
+	std::vector<std::shared_ptr<N>> closedList;
 };
 #endif /*ASTAR_H*/
