@@ -25,7 +25,8 @@ int getMilliSpan(int nTimeStart) {
 
 int main()
 {
-	Map2d::executeTest(10, 10);
+	srand(time(NULL));
+	Map2d::executeTest(100, 100);
 	
 	system("Pause");
 	return 0;
